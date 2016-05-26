@@ -1,1 +1,26 @@
 #:kivy 1.0.9
+<Alarm>
+    btn1: btn_1
+    btn2: btn_2
+    # btn3: btn_3
+    # pop: p
+    clock: time
+    BoxLayout:
+        orientation: 'vertical'
+        spacing: 10
+        Label:
+            id: time
+            text: app.time
+            font_size: 70
+            color: (0.349, 0.776, 1.0, 1.0)
+            size: self.size
+        Button:
+            id: btn_2
+            text: 'Click Me'
+            background_color: (0.349, 0.776, 1.0, 1.0)
+            background_normal: ''
+        Button:
+            id: btn_1
+            text: "Exit"
+            background_color: (0.349, 0.776, 1.0, 1.0)
+            background_normal: ''

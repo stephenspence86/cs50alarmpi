@@ -11,24 +11,33 @@ from kivy.graphics import Color
 from kivy.uix.popup import Popup
 from kivy.core.text.markup import MarkupLabel
 from kivy.core.text import LabelBase
+from kivy.properties import NumericProperty, ReferenceListProperty, ObjectProperty, StringProperty
+import time
+
 
 class Alarm(BoxLayout):
 
     def __init__(self, **kwargs):
         super(Alarm, self).__init__(**kwargs)
-        self.today= datetime.now()
-        self.clock = Label(text = self.today.strftime('[color= #d3d3d3]%H:%M[/color]'), markup = True, font_size = 70, )
-        self.add_widget(self.clock)
-        self.btn1 = Button(text = 'Exit', background_normal ='', background_color = (0.349, 0.776, 1.0, 1.0))
+        btn1 = ObjectProperty(None)
         self.btn1.bind(on_release = self.btn1_pressed)
-        self.btn2 = Button (text = 'Click Me', background_normal ='', background_color = (0.349, 0.776, 1.0, 1.0))
-        self.btn2.bind(on_release = self.btn2_pressed)
-        self.add_widget(self.btn1)
-        self.add_widget(self.btn2)
+        btn2= ObjectProperty(None)
+        self.btn2.bind(on_release= self.btn2_pressed)
+        #self.today= datetime.now()
+        clock = ObjectProperty(None)
 
+    #     self.clock = Label(text = self.today.strftime('[color= (0.827, 0.827, 0.827, 1)]%H:%M[/color]'), markup = True, font_size = 70, )
+    #     self.add_widget(self.clock)
+    #     self.btn1 = Button(text = 'Exit', background_normal ='', background_color = (0.349, 0.776, 1.0, 1.0))
+    #     self.btn1.bind(on_release = self.btn1_pressed)
+    #     self.btn2 = Button (text = 'Click Me', background_normal ='', background_color = (0.349, 0.776, 1.0, 1.0))
+    #     self.btn2.bind(on_release = self.btn2_pressed)
+    #     self.add_widget(self.btn1)
+    #     self.add_widget(self.btn2)
+    #
     def btn1_pressed(self, obj):
         exit()
-
+    #
     def btn2_pressed(self, obj):
         content = BoxLayout(orientation = 'vertical')
         label= Label(text = ('[color= #59c6ff] hello World [/color]'), markup = True)
@@ -37,7 +46,7 @@ class Alarm(BoxLayout):
         content.add_widget(btn3)
 
         p= Popup(content = content,
-                 title = '[color = #59c6ff] Herrow?[/color]', 
+                 title = 'Herrow?',
                  size_hint = (None, None), size= (400,400),
                  auto_dismiss = False,
                  background = '',
@@ -45,11 +54,12 @@ class Alarm(BoxLayout):
         p.open()
         btn3.bind(on_release = p.dismiss)
 
-class Popup(Popup):
-    pass
-
 class AlarmApp(App):
+    time = StringProperty()
+    def showTime(self, *args):
+        self.time= str(time.strftime('%H:%M:%S'))
     def build(self):
+        Clock.schedule_interval(self.showTime, 1)
         # layout = BoxLayout (orientation = 'vertical', spacing = 10)
         #self.alarm = Alarm()
         # today= datetime.now()
