@@ -8,34 +8,81 @@ from kivy.uix.button import Button
 from kivy.uix.boxlayout import BoxLayout
 from datetime import datetime
 from kivy.graphics import Color
+from kivy.uix.popup import Popup
+from kivy.core.text.markup import MarkupLabel
+from kivy.core.text import LabelBase
 
-class Alarm(Widget):
-    pass
+class Alarm(BoxLayout):
 
-class AlarmApp(App):
-    def build(self):
-        layout = BoxLayout (orientation = 'vertical', spacing = 10)
-        #self.alarm = Alarm()
-        today= datetime.now()
-        #showTime = today.strftime("%H:%M")
-        clock = Label(text = today.strftime("%H:%M"), font_size = 70)
-        btn1 = Button(text = 'Exit')
-        btn1.bind(on_release = self.btn1_pressed)
-        btn2 = Button (text = 'Change Color')
-        btn2.bind(on_release = self.btn2_pressed)
-        #layout.add_widget(self.alarm)
-        layout.add_widget(clock)
-        layout.add_widget(btn2)
-        layout.add_widget(btn1)
-        #Window.borderless = True
-        #Window.fullscreen = True
-        return layout
+    def __init__(self, **kwargs):
+        super(Alarm, self).__init__(**kwargs)
+        self.today= datetime.now()
+        self.clock = Label(text = self.today.strftime('[color= #d3d3d3]%H:%M[/color]'), markup = True, font_size = 70, )
+        self.add_widget(self.clock)
+        self.btn1 = Button(text = 'Exit', background_normal ='', background_color = (0.349, 0.776, 1.0, 1.0))
+        self.btn1.bind(on_release = self.btn1_pressed)
+        self.btn2 = Button (text = 'Click Me', background_normal ='', background_color = (0.349, 0.776, 1.0, 1.0))
+        self.btn2.bind(on_release = self.btn2_pressed)
+        self.add_widget(self.btn1)
+        self.add_widget(self.btn2)
 
     def btn1_pressed(self, obj):
         exit()
 
     def btn2_pressed(self, obj):
-        clock = Label(text = '[color = 59c6ff] today.strftime("%H:%M") [/color]', markup = True, font_size = 70, )
+        content = BoxLayout(orientation = 'vertical')
+        label= Label(text = ('[color= #59c6ff] hello World [/color]'), markup = True)
+        btn3 = Button(text = 'close me!', background_normal ='', background_color = (0.349, 0.776, 1.0, 1.0))
+        content.add_widget(label)
+        content.add_widget(btn3)
+
+        p= Popup(content = content,
+                 title = '[color = #59c6ff] Herrow?[/color]', 
+                 size_hint = (None, None), size= (400,400),
+                 auto_dismiss = False,
+                 background = '',
+                 )
+        p.open()
+        btn3.bind(on_release = p.dismiss)
+
+class Popup(Popup):
+    pass
+
+class AlarmApp(App):
+    def build(self):
+        # layout = BoxLayout (orientation = 'vertical', spacing = 10)
+        #self.alarm = Alarm()
+        # today= datetime.now()
+        #showTime = today.strftime("%H:%M")
+        # clock = Label(text = today.strftime("%H:%M"), font_size = 70)
+        # btn1 = Button(text = 'Exit', background_normal ='', background_color = (0.349, 0.776, 1.0, 1.0))
+        # btn1.bind(on_release = self.btn1_pressed)
+        # btn2 = Button (text = 'Click Me', background_normal ='', background_color = (0.349, 0.776, 1.0, 1.0))
+        # btn2.bind(on_release = self.btn2_pressed)
+        #layout.add_widget(self.alarm)
+        # layout.add_widget(clock)
+        # layout.add_widget(btn2)
+        # layout.add_widget(btn1)
+        #Window.borderless = True
+        #Window.fullscreen = True
+        Window.clearcolor = (1, 1, 1, 1)
+        return Alarm()
+
+    # def btn1_pressed(self, obj):
+    #     exit()
+    #
+    # def btn2_pressed(self, obj):
+    #     content = BoxLayout(orientation = 'vertical')
+    #     content.add_widget(Label(text = 'hello World'))
+    #     btn3 = Button(text = 'close me!', background_normal ='', background_color = (0.349, 0.776, 1.0, 1.0))
+    #     content.add_widget(btn3)
+    #
+    #     p= Popup(content = content,
+    #              title = 'Herrow?',
+    #              size_hint = (None, None), size= (400,400),
+    #              auto_dismiss = False)
+    #     p.open()
+    #     btn3.bind(on_release = p.dismiss)
 
 if __name__ == '__main__':
     AlarmApp().run()
