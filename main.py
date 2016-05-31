@@ -13,6 +13,8 @@ from kivy.core.text.markup import MarkupLabel
 from kivy.core.text import LabelBase
 from kivy.properties import NumericProperty, ReferenceListProperty, ObjectProperty, StringProperty
 import time
+import forecastio
+
 
 
 class Alarm(BoxLayout):
@@ -25,7 +27,8 @@ class Alarm(BoxLayout):
         self.btn2.bind(on_release= self.btn2_pressed)
         #self.today= datetime.now()
         clock = ObjectProperty(None)
-
+        btnt4 = ObjectProperty(None)
+        self.btn4.bind(on_release = self.btn4_pressed)
     #     self.clock = Label(text = self.today.strftime('[color= (0.827, 0.827, 0.827, 1)]%H:%M[/color]'), markup = True, font_size = 70, )
     #     self.add_widget(self.clock)
     #     self.btn1 = Button(text = 'Exit', background_normal ='', background_color = (0.349, 0.776, 1.0, 1.0))
@@ -53,6 +56,22 @@ class Alarm(BoxLayout):
                  )
         p.open()
         btn3.bind(on_release = p.dismiss)
+
+    def btn4_pressed(self, obj):
+        content= BoxLayout(orientation= 'vertical')
+        ForecastLabel= Label(text = ('[color= #59c6ff] Forecast goes here [/color]'), markup = True)
+        btn5 = Button(text = 'close me!', background_normal ='', background_color = (0.349, 0.776, 1.0, 1.0))
+        content.add_widget(ForecastLabel)
+        content.add_widget(btn5)
+
+        p2= Popup(content = content,
+                  title = 'Forecast for today',
+                  size_hint = (None, None), size= (400,400),
+                  auto_dismiss = False,
+                  background = '',
+                  )
+        p2.open()
+        btn5.bind(on_release = p2.dismiss)
 
 class AlarmApp(App):
     time = StringProperty()

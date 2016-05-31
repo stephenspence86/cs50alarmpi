@@ -1,26 +1,48 @@
 #:kivy 1.0.9
 <Alarm>
-    btn1: btn_1
-    btn2: btn_2
+    btn1: btn1
+    btn2: btn2
+    btn4: btn4
+    # ForecastLabel: ForecastLabel
+    # btn5: btn5
     # btn3: btn_3
     # pop: p
-    clock: time
+    clock: clock
     BoxLayout:
         orientation: 'vertical'
         spacing: 10
         Label:
-            id: time
+            id: clock
             text: app.time
             font_size: 70
             color: (0.349, 0.776, 1.0, 1.0)
             size: self.size
         Button:
-            id: btn_2
+            id: btn4
+            text: 'Forecast'
+            background_color: (0.349, 0.776, 1.0, 1.0)
+            background_normal: ''
+        Button:
+            id: btn2
             text: 'Click Me'
             background_color: (0.349, 0.776, 1.0, 1.0)
             background_normal: ''
         Button:
-            id: btn_1
+            id: btn1
             text: "Exit"
             background_color: (0.349, 0.776, 1.0, 1.0)
             background_normal: ''
+
+# <btn4_pressed>
+#
+#         Button:
+#             id: btn5
+#             text: 'Exit'
+#             background_color: (0.349, 0.776, 1.0, 1.0)
+#             background_normal: ''
+#         Label:
+#             id: Forecast_Label
+#             text: 'Forcast goes here'
+#             font_size: 70
+#             color: (0.349, 0.776, 1.0, 1.0 =)
+#             size: self.size
