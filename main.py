@@ -3,6 +3,8 @@ CS50 Final Project
 Uses www.forecast.io for weather results
 (h/t to TODO: Add python forcast wrapper details )"""
 
+import time
+from kivy.utils import escape_markup
 from kivy.app import App
 #from kivy.uix.widget import Widget
 from kivy.uix.label import Label
@@ -17,9 +19,14 @@ from kivy.uix.popup import Popup
 #from kivy.core.text.markup import MarkupLabel
 #from kivy.core.text import LabelBase
 from kivy.properties import StringProperty
-import time
+
 import forecastio
 
+api_key = "9ca514decbdf7d7055ba9de5228cfa77"
+lat = 52.3782080
+lng = -1.7578900
+
+forecast = forecastio.load_forecast(api_key, lat, lng)
 
 class Alarm(BoxLayout):
 
@@ -35,7 +42,7 @@ class Alarm(BoxLayout):
     def btn2_pressed(self, obj):
         content = BoxLayout(orientation='vertical')
         label = Label(
-            text=('[color= #59c6ff] hello World [/color]'), markup=True)
+            text=('[color=#59c6ff] hello World [/color]'), markup=True)
         btn3 = Button(text='close me!', background_normal='',
                       background_color=(0.349, 0.776, 1.0, 1.0))
         content.add_widget(label)
@@ -52,8 +59,10 @@ class Alarm(BoxLayout):
 
     def btn4_pressed(self, obj):
         content = BoxLayout(orientation='vertical')
+        hourly= forecast.currently()
+        currentForecast = str(hourly.summary)
         ForecastLabel = Label(
-            text=('[color= #59c6ff] Forecast goes here [/color]'), markup=True)
+            text=('[color=#59c6ff]' + currentForecast + '[/color]'), markup = True)
         btn5 = Button(text='close me!', background_normal='',
                       background_color=(0.349, 0.776, 1.0, 1.0))
         content.add_widget(ForecastLabel)
@@ -64,6 +73,7 @@ class Alarm(BoxLayout):
                    size_hint=(None, None), size=(400, 400),
                    auto_dismiss=False,
                    background='',
+                   title_color = (0.349, 0.776, 1.0, 1.0),
                   )
         p2.open()
         btn5.bind(on_release=p2.dismiss)
